@@ -1,0 +1,6 @@
+# System default configuration.
+
+auth       include      system-auth
+account    include      system-auth
+password   include      system-auth
+session    include      system-auth
