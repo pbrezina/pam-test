@@ -177,13 +177,14 @@ int main(int argc, const char *argv[])
 
     user = argv[2];
 
-    /* PAM Stack for the service must exist. */
-    if(access("/etc/pam.d/" PAM_TEST_SERVICE, F_OK) != 0) {
+    if (!getenv("PAM_SKIP_CHECK_CONFIG")) {
+      /* PAM Stack for the service must exist. */
+      if(access("/etc/pam.d/" PAM_TEST_SERVICE, F_OK) != 0) {
         fprintf(stderr, PAM_TEST_STACK " does not exist!\n");
         return 1;
+      }
+      print_pam_stack(PAM_TEST_STACK);
     }
-
-    print_pam_stack(PAM_TEST_STACK);
 
     op = parse_operation(argv[1]);
     switch (op) {
