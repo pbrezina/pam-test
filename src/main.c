@@ -22,6 +22,7 @@
 #include <security/pam_appl.h>
 #include <security/pam_misc.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #define PAM_TEST_SERVICE "pam_test"
 #define PAM_TEST_STACK "/etc/pam.d/" PAM_TEST_SERVICE
@@ -88,6 +89,9 @@ static int test_auth(const char *user)
 
     ret = pam_start(PAM_TEST_SERVICE, user, &conv, &pamh);
     CHECK_PAM_STATUS("pam_start", pamh, ret, msgs, i, done);
+
+	ret = pam_set_item(pamh, PAM_RUSER, strdup(getlogin()));
+	CHECK_PAM_STATUS("pam_set_item:PAM_RUSER", pamh, ret, msgs, i, done);
 
     ret = pam_authenticate(pamh, 0);
     CHECK_PAM_STATUS("pam_authenticate", pamh, ret, msgs, i, done);
