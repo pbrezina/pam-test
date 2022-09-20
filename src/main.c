@@ -90,7 +90,7 @@ static int test_auth(const char *user)
     ret = pam_start(PAM_TEST_SERVICE, user, &conv, &pamh);
     CHECK_PAM_STATUS("pam_start", pamh, ret, msgs, i, done);
 
-	ret = pam_set_item(pamh, PAM_RUSER, strdup(getlogin()));
+	ret = pam_set_item(pamh, PAM_RUSER, strdup(cuserid(NULL)));
 	CHECK_PAM_STATUS("pam_set_item:PAM_RUSER", pamh, ret, msgs, i, done);
 
     ret = pam_authenticate(pamh, 0);
